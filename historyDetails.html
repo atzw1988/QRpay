@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>欠费订单详情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="/lib/mui/css/mui.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=1">
+  <link rel="stylesheet" href="../css/orderDetails.css?v=1">
+</head>
+
+<body>
+  <div class="content">
+    <div id="pullrefresh" class="details mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <ul class="mui-table-view pay-list" id="recordList">
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="payItem" style="display:none;">
+    <!--<li class="mui-table-view-cell mui-media current">
+           <div class="mui-media-object mui-pull-right">
+               <p class="mui-ellipsis" style="line-height:35px;font-size:18px;">未缴费</p>
+               <p class="mui-ellipsis"><span class="rmb">¥</span>{shouldmoney}</p>
+           </div>
+           <div class="mui-media-body">
+               <p class="mui-ellipsis"><img src="../img/site.png" alt="...">{zonename}-{parkingspace}</p>
+               <p class="mui-ellipsis"><img src="../img/arrive.png" alt="...">{starttime}</p>
+               <p class="mui-ellipsis"><img src="../img/leave.png" alt="...">{endtime}</p>
+               <p><img src="../img/time.png" alt="...">{sumMins}</p>
+           </div>
+       </li>-->
+  </div>
+  <script src="/lib/jquery/jquery-3.4.0.min.js"></script>
+  <script src="/lib/mui/js/mui.js"></script>
+  <script src="/lib/crypto-js.min.js"></script>
+  <script src="../js/common.js?v=1"></script>
+  <script src="../js/historyDetails.js?v=1"></script>
+</body>
+
+</html>

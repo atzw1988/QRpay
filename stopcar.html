@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>缴费</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="/lib/mui/css/mui.min.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/stopcar.css">
+</head>
+
+<body>
+  <div class="content">
+    <div id="pullrefresh" class="recode-view mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <ul class="mui-table-view pay-list" id="recordList">
+
+        </ul>
+        <div id="loading" class="no-data" style="background:transparent;display:none;">
+          <p>
+            玩命加载中，请稍等片刻......
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="orderItem" style="display:none">
+    <!-- <li class="current">
+      <p class="title">车辆还在停车中</p>
+      <div class=" detail_list">
+        <p class="mui-ellipsis detail">所停车辆：{carnumber}</p>
+        <p class="mui-ellipsis detail">入场时间：{starttime}</p>
+        <p class="mui-ellipsis detail">已停时长：{sumMins}</p>
+        <p class="mui-ellipsis detail">已消费金额：{money}</p>
+        <p class="mui-ellipsis detail">停车点位置：{zonename} <b class="dot"></b>
+          {parkingspace}
+        </p>
+        <p class="mui-ellipsis detail">收费规则：
+          <div class="rule">
+            每天8:00-20:00,停放时间不足30分钟(含)免费,停放时间超过30分钟不足1小时(含),按2元/车位标准收取,以后按3元/车位/小时的标准收取,不足1小时的按1小时计;8:00-20:00外免费。
+          </div>
+        </p>
+      </div>
+    </li>
+    <button type="button" class="mui-btn mui-btn-primary stopcar">结束停车</button> -->
+  </div>
+  <script src="/lib/jquery/jquery-3.4.0.min.js"></script>
+  <script src="/lib/mui/js/mui.js"></script>
+  <script src="/lib/crypto-js.min.js"></script>
+  <script src="../js/common.js?v=1"></script>
+  <script src="../js/stopcar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+.mui-content,.mui-page,.mui-content-padded{
+    height:100%;
+    min-height:100%;
+    margin:0;
+}
+.mui-content-padded{
+    position:relative;
+    padding:30px 20px;
+}
+.mui-content .mui-block.img{
+    text-align:center;
+    margin-top:90px;
+    margin-bottom:20px;
+}
+.mui-content .mui-block.img img{
+    width:130px;
+}
+.mui-input-group {
+    margin-bottom:60px;
+}
+.mui-input-group:before{
+    background-color:transparent;
+}
+.mui-input-group:after{
+    background-color:#eee;
+}
+/*输入框中placeholer文字颜色*/
+input::-webkit-input-placeholder{ /* WebKit browsers */
+    color:#999;
+    font-size:15px;
+}
+input:-moz-placeholder{ /* Mozilla Firefox 4 to 18 */
+    color:#999;
+    font-size:15px;
+}
+input::-moz-placeholder{ /* Mozilla Firefox 19+ */
+    color:#999;
+    font-size:15px;
+}
+input:-ms-input-placeholder{ /* Internet Explorer 10+ */
+    color:#999;
+    font-size:15px;
+}
+.mui-input-group input{
+    font-size:18px;
+    color:#333;
+    /*height:60px;*/
+}
+.code-row{
+    margin-top:20px;
+    position:relative;
+}
+.code-row input{
+    padding-right:80px;
+}
+.code-row .send-code{
+    position:absolute;
+    top:0;
+    right:0;
+    height:40px;
+    line-height:40px;
+    font-size:15px;
+    color:#0398ff;
+    cursor:pointer;
+}
+.code-row .disabled{
+    color:#aaa;
+}
+.time{
+    margin-top:10px;
+    font-size:12px;
+}
+.time.disabled{
+    display:none;
+}
+.time span{
+    color:#fc4d4d;
+}
+.notice {
+    font-size:12px;
+    color:#999;
+    /* display:block; */
+    /* margin-top: 15%; */
+    position: absolute;
+    padding-right: 20px;
+    bottom: 10px;
+    /* width: 100%; */
+}
+.notice a{
+    color:#999;
+}
+.notice span{
+    color:#666;
+}

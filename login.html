@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="/lib/mui/css/mui.min.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+  <div class="mui-page-content mui-content">
+    <div class="mui-content-padded">
+      <div class="mui-block img">
+        <img src="../img/register.png" alt="登录">
+      </div>
+      <form class="mui-input-group">
+        <div class="mui-input-row">
+          <input type="tel" id="phone" name="MOBILE_NUMBER" placeholder="请输入手机号" autocomplete="off">
+        </div>
+        <div class="mui-input-row code-row">
+          <input type="number" id="captcha" name="CAPTCHA" placeholder="请输入验证码" autocomplete="off"><a
+            class="send-code _sendCode">获取验证码</a>
+        </div>
+        <p class="mui-pull-right time disabled">(<span class="_time">50</span>s)</p>
+      </form>
+      <div class="btn-wrap">
+        <button class="_login mui-btn mui-btn-wechat mui-btn-block" data-loading-text="登录中">登录</button>
+      </div>
+
+      <div class="notice _notice">
+        <span>温馨提示：</span>
+        完成本次操作后，后续即可通过扫描小票二维码直接进行缴纳停车费。如有疑问，请拨打客户热线 <a href="tel:4008888236">400-888-8236</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/lib/jquery/jquery-3.4.0.min.js"></script>
+  <script src="/lib/mui/js/mui.js"></script>
+  <script src="/lib/crypto-js.min.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+
+</html>

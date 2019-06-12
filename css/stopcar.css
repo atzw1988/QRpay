@@ -1,0 +1,101 @@
+body,
+.mui-content {
+  background: #f3f3f3;
+}
+
+.mui-scroll {
+  min-height: calc(100% - 50px);
+}
+
+.person {
+  position: fixed;
+  right: 6px;
+}
+
+.person .mui-popover-arrow {
+  left: auto;
+  right: 6px;
+}
+
+.mui-popover .mui-scroll-wrapper {
+  margin: 0;
+}
+
+.mui-popover {
+  height: 85px;
+  width: 105px;
+  border-radius: 4px;
+}
+
+.mui-popover .mui-table-view {
+  margin-top: 0;
+}
+
+.mui-popover .mui-table-view a {
+  /*font-size:12px;*/
+}
+
+.mui-popover .mui-table-view-cell:after {
+  left: 0;
+}
+
+.mui-bar a.personInfo {
+  width: 44px;
+  height: 50px;
+  padding: 15px 12px !important;
+}
+
+.mui-bar a.personInfo img {
+  width: 20px;
+  height: 20px;
+}
+
+.pay-list .mui-media-body .res-text {
+  font-size: 12px;
+  margin-left: 30px;
+}
+
+.pay-list .mui-media-body .res-text span {
+  font-size: 16px;
+  margin-left: 5px;
+}
+.title{
+  text-align: center;
+}
+.detail_list{
+  margin: 0;
+}
+.detail {
+  width: 100%;
+  margin: 20px auto 0;
+  color: #000;
+  word-wrap:break-word;
+}
+.rule{
+  /* margin-top: 20px; */
+  font-size: 12px;
+}
+.current{
+  height: 380px;
+  width: 95%;
+  margin: 20% auto 0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px 10px 30px;
+}
+.stopcar{
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 20%;
+}
+/*.mui-bar a.mui-icon-person:before{*/
+/*content:"";*/
+/*display:block;*/
+/*width:18px;*/
+/*height:18px;*/
+/*background:url(/resources/img/person.png) no-repeat;*/
+/*background-size: contain;*/
+/*}*/
+/*.mui-bar a.mui-icon-person:active{*/
+/*opacity:1;*/
+/*}*/
