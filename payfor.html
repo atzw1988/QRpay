@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>缴费</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="lib/mui/css/mui.min.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/payfor.css">
+</head>
+
+<body>
+  <div class="content">
+    <div id="pullrefresh" class="recode-view mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <ul class="mui-table-view pay-list" id="recordList">
+
+        </ul>
+        <div id="loading" class="no-data" style="background:transparent;display:none;">
+          <p>
+            玩命加载中，请稍等片刻......
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="orderItem" style="display:none">
+    <!-- <li class="current">
+      <p class="title">{car_no}</p>
+      <div class=" detail_list">
+        <p class="mui-ellipsis detail">停车位置：<span class="right">{parking_name} <b class="dot"></b>
+            {park_no}</span></p>
+        <p class="mui-ellipsis detail">停车时长：<span class="right">{buy_time}</span></p>
+        <p class="mui-ellipsis detail">停车费用：<span class="right" style="color:#d81e06">{charge_money}元</span></p>
+        <p class="mui-ellipsis detail">驶入时间：<span class="right">{parkstart_time}</span></p>
+        <p class="mui-ellipsis detail">驶出时间：<span class="right">{parkend_time}</span></p>
+        <p class="mui-ellipsis detail">停车费率：
+          <div class="rule">
+            白天费率:每天8:00-20:00,停放时间不足30分钟(含)免费,停放时间超过30分钟不足1小时(含),按2元/车位标准收取,以后按3元/车位/小时的标准收取,不足1小时的按1小时计。
+          </div>
+          <div class="rule">
+            夜间费率:免费(收费标准会不定期调整,如有疑义,请咨询当地收费机构)
+          </div>
+        </p>
+        <p class="mui-ellipsis detail">订单状态：<span class="right" style="color:#d81e06">未缴纳</span></p>
+      </div>
+    </li>
+    <button type="button" class="mui-btn mui-btn-primary pay">确认支付</button> -->
+  </div>
+  <script src="lib/jquery/jquery-3.4.0.min.js"></script>
+  <script src="lib/mui/js/mui.js"></script>
+  <script src="lib/crypto-js.min.js"></script>
+  <script src="js/common.js?v=1"></script>
+  <script src="js/payfor.js"></script>
+</body>
+
+</html>

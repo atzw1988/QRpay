@@ -8,7 +8,7 @@
   <meta http-equiv="pragma" content="no-cache">
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
-  <title>道闸立体停车</title>
+  <title>嵊停车</title>
   <link rel="stylesheet" href="css/index.css">
   <script src="js/rem.js"></script>
 </head>
@@ -20,18 +20,18 @@
     </div>
   </div>
 </body>
-<script src="/lib/jquery/jquery-3.4.0.min.js"></script>
+<script src="lib/jquery/jquery-3.4.0.min.js"></script>
 <script>
-  if (!isMobile()) {
-    $(".errPlate").text("请使用微信或支付宝扫描二维码");
-    $(".errPlateBtn").remove();
-    $(".mask").show();
-  }
-  if(isMobile()&&!isWeiXin()&&!isAlipay()){
-    $(".errPlate").text("请使用微信或支付宝扫描二维码");
-    $(".errPlateBtn").remove();
-    $(".mask").show();
-  }
+  // if (!isMobile()) {
+  //   $(".errPlate").text("请使用微信或支付宝扫描二维码");
+  //   $(".errPlateBtn").remove();
+  //   $(".mask").show();
+  // }
+  // if(isMobile()&&!isWeiXin()&&!isAlipay()){
+  //   $(".errPlate").text("请使用微信或支付宝扫描二维码");
+  //   $(".errPlateBtn").remove();
+  //   $(".mask").show();
+  // }
   console.log(window.navigator.userAgent.match())
 
   function isMobile() {
@@ -69,23 +69,15 @@
     var car_no = decodeURI(url.substr(url.indexOf('=')+1))
     window.localStorage.setItem('car_no',car_no)
     if (isWeiXin()) {
-      source = "wxjs";
-      var appid = "wx08551f6139c4b9fb";
-      var redirect_uri = encodeURIComponent("http://www.lcgxlm.com/fastPay/login.html");
-      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid +
-      "&redirect_uri=" +
-      redirect_uri + "&response_type=code&scope=snsapi_base#wechat_redirect"
-    } else if (isAlipay()) {
-      source = "alipayjs";
-    } else {
-      window.location.pathname = "/paylist.html"
-      $(".errPlate").text("请使用微信或支付宝扫描二维码");
-      $(".errPlateBtn").remove();
-      $(".mask").show();
-      return;
-    }
-    if(isAlipay()){
       window.location.pathname = '/itsPay/login.html'
+      // window.location.pathname = '/login.html'
+    } else if (isAlipay()) {
+      window.location.pathname = '/itsPay/login.html'
+      // window.location.pathname = '/login.html'
+    } else {
+      window.location.pathname = "/itsPay/notice.html"
+      // window.location.pathname = '/login.html'
+      return;
     }
   })
 </script>

@@ -59,15 +59,16 @@ function isNull(_val){
 var my_url = getRootPath()
 console.log(my_url)
 var __url = 'http://www.lcgxlm.com:13259'
+// var __url = 'http://192.168.1.104:13259'
 function __post(url,data,callback,async){ //POST请求
     console.log("请求参数",data);
     mui.ajax(__url+url,{
         data:data,//加密传输
-        dataType:"json",//服务器返回json格式数据
+        dataType: "json", //服务器返回json格式数据
         type:"post",//HTTP请求类型
         async:async,
         // timeout:20000,//超时时间设置为20秒；
-        headers:{"Content-Type":"application/json","X-Requested-With" : ""},
+        headers:{"Content-Type":"application/json"},
         success:function(r){
             console.log("返回参数",r);
             // alert(r.errcode);
@@ -88,6 +89,7 @@ function __post(url,data,callback,async){ //POST请求
         error:function(xhr,type,errorThrown){
             //异常处理；
             console.log(type);
+            mui.alert("网络开小差了！", "警告")
         }
     })
 }
@@ -140,7 +142,6 @@ function ready(callback) {
     }
 }
 String.prototype.format = function(args) {
-    console.log(args)
     if(arguments.length>0) {
         var result = this;
         if(arguments.length == 1 && typeof (args) == "object"){

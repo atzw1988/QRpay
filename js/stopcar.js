@@ -1,14 +1,8 @@
 (function (m) {
-  setBuyerId();
-  var obj = {
-    userId: getLocal("USER_ID"),
-    loginKey: getLocal("LOGIN_KEY")
-  };
+  // setBuyerId();
   // var ordersItem = $("#ordersItem").html().replace(/\<!--|--\>/g, "");
   // var carId = GetUrlParam("car_id") ? GetUrlParam("car_id") : ""; //公众号 停车场获取carId
   var carId = window.localStorage.getItem('car_no')
-  var carId = '粤B88888'
-  var order
   // carId = carId.indexOf("?") < 0 ? carId : carId.substring(0, carId.indexOf("?"));
   mui.init({
     swipeBack: true, //启用右滑关闭功能
@@ -26,29 +20,19 @@
 
   function getCurrent() { //获取前订单
     $("#recordList").html("").hide();
-    var _tpl = $("#orderItem").html().replace(/\<!--|--\>/g, ""),
-      url = "/its/charge/isPay";
-    var data = {
-      carnumber: carId,
-    };
+    var _tpl = $("#orderItem").html().replace(/\<!--|--\>/g, "")
     $.ajax({
       type: 'get',
-      url: 'http://www.lcgxlm.com:13259/its/charge/isOut',
+      url: 'http://www.lcgxlm.com:13259/its/admin/charge/isOut',
+      // url: 'http://192.168.1.104:13259/its/admin/charge/isOut',
       data: {
-        carid: carId
+        carid: encodeURI(carId)
       },
       success: (res) => {
-        if (res.data) {
+        console.log(res)
+        if (res.data.length > 0) {
           $("#loading").hide()
-          let resp = {}
-          resp = {
-            carnumber:'粤B88888',
-            starttime:'2019-06-12 12:00:00',
-            sumMins:'1小时30分钟',
-            money:20.00,
-            zonename:'龙盛路',
-            parkingspace:'401012'
-          }
+          let resp = res.data[0]
           $("#recordList").prepend(_tpl.format(resp))
           mui("#pullrefresh").pullRefresh().endPulldownToRefresh()
           var html = $("#recordList").html();
@@ -59,9 +43,8 @@
             $("#recordList").show();
           }
         } else {
-          mui.toast('该车辆还未出场', {
-            duration: 'long'
-          })
+          window.location.pathname = '/itsPay/paylist.html'
+          // window.location.pathname = '/paylist.html'
         }
       }
     })
@@ -69,6 +52,19 @@
   mui("body").on("tap", ".stopcar", function () {
     mui.confirm('是否确认结束停车','温馨提示',(e) => {
       if(e.index == 1){
+        let url = '/its/admin/charge/closeOrder'
+        let data = {
+          car_no: carId
+        }
+        __post(url,data,(res) => {
+          console.log(res)
+          if(res.data){
+            window.location.pathname = '/itsPay/paylist.html'
+            // window.location.pathname = '/paylist.html'
+          }else{
+            mui.alert("结束停车失败，请重新尝试！", '警告')
+          }
+        },true)
         console.log('结束停车')
       }else{
         console.log('取消操作')
@@ -80,7 +76,7 @@
   var oldBack = m.back;
   m.back = function () {
     if (__source !== "1") //不是扫码则返回车牌列表页
-      document.location.href = my_url + "login.html";
+      document.location.href = my_url + "/itsPay/login.html";
     else
       oldBack();
   };

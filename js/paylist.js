@@ -1,14 +1,12 @@
 (function (m) {
   setBuyerId();
-  var obj = {
-    userId: getLocal("USER_ID"),
-    loginKey: getLocal("LOGIN_KEY")
-  };
-  var ordersItem = $("#ordersItem").html().replace(/\<!--|--\>/g, "");
+  var _tpl = $("#orderItem").html().replace(/\<!--|--\>/g, "")
+  var url = "/its/admin/charge/findOrderList"
+  var page_index = 1
   // var carId = GetUrlParam("car_id") ? GetUrlParam("car_id") : ""; //公众号 停车场获取carId
+  window.localStorage.removeItem('sel_order')
   var carId = window.localStorage.getItem('car_no')
-  var carId = '粤B88888'
-  var order
+  var resp
   // carId = carId.indexOf("?") < 0 ? carId : carId.substring(0, carId.indexOf("?"));
   mui.init({
     swipeBack: true, //启用右滑关闭功能
@@ -18,8 +16,14 @@
         style: "circle",
         auto: true,
         callback: function () {
-          getRecords();
-          getCurrent(); //扫码 停车场显示当前单笔订单
+          getCurrent(true); //扫码 停车场显示当前单笔订单
+        }
+      },
+      up: {
+        contentrefresh: "正在加载...",
+        contentnomore: '没有更多数据了',
+        callback: function () {
+          getCurrent(false);
         }
       }
     }
@@ -42,178 +46,99 @@
       return false;
     }
   }
-  function getCurrent() { //获取前订单
-    var _tpl = $("#orderItem").html().replace(/\<!--|--\>/g, ""),
-      url = "/its/charge/isPay";
-    var data = {
-      carnumber: carId,
-    };
-    $.ajax({
-      type: 'get',
-      url: 'http://www.lcgxlm.com:13259/its/charge/isOut',
-      data: {
-        carid: carId
-      },
-      success: (res)=> {
-        if(res.data){
-          __post(url,data,(res) => {
-            if(!res.data){
-              let url_one = '/its/charge/shouldPay'
-              __post(url_one,data,(res) => {
-                if(res.code == 0){
-                  $("#loading").hide()
-                  order = res.data
-                  let resp = res.data
-                  resp.shouldmoney = (resp.shouldmoney * 1).toFixed(2)
-                  if (resp.sumMins < 60){
-                    resp.sumMins = resp.sumMins + '分钟'
-                  } else if (resp.sumMins == 60){
-                    resp.sumMins = '1小时'
-                  }else{
-                    resp.sumMins = Math.floor(resp.sumMins / 60) + '小时' + resp.sumMins%60 + '分钟'
-                  }
-                  $("#recordList").prepend(_tpl.format(resp))
-                  mui("#pullrefresh").pullRefresh().endPulldownToRefresh()
-                  var html = $("#recordList").html();
-                  if ($.trim(html) === "") {
-                    $("#recordList").hide();
-                    $("#nodata").show();
-                  } else {
-                    $("#recordList").show();
-                  }
-                }
-              },true)
-              
-            }else{
-              mui.toast('该车辆当前订单费用已经付清', {
-                duration: 'long'
-              })
-            }
-          },true)
-        }else{
-          mui.toast('该车辆还未出场',{
-            duration: 'long'
-          })
-        }
-      }
-    })
+  function formatDatenew(inputTime) {
+    var date = new Date(inputTime);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
   }
-
-  function getRecords() {
-    $("#loading").show();
-    $("#nodata").hide();
-    $("#recordList").html("").hide();
-    let data = {
-      carnumber: carId
+  function getCurrent(isClear) { //获取前订单
+    if (isClear){
+      page_index = 1
     }
-    let url_two = '/its/charge/unPay'
-    __post(url_two, data, (res) => {
-      if (res.code == 0) {
-        $("#loading").hide()
-        let money = 0
-        res.data.forEach(ele => {
-          money += ele.shouldmoney
-        })
-        let resp = {
-          shouldmoney: money.toFixed(2),
-          AREA_NAME: '嵊州',
-          carnumber: data.carnumber,
-          UNPAID_COUNT: res.data.length,
-          HISTORY_DETAIL: "historyDetails.html"
-        }
-        $("#recordList").prepend(ordersItem.format(resp))
-        mui("#pullrefresh").pullRefresh().endPulldownToRefresh()
-        var html = $("#recordList").html();
-        if ($.trim(html) === "") {
-          $("#recordList").hide();
-          $("#nodata").show();
-        } else {
-          $("#recordList").show();
-        }
+    var data = {
+      car_no: carId,
+      pageSize:10,
+      currentPage: page_index
+    };
+    $('.no_more').hide()
+    __post(url,data,(res) => {
+      console.log(res)
+      if (res.data.pages <= page_index) {
+        $('.no_more').show()
       }
-    }, true)
+      if (res.data.pages < page_index) {
+        return mui('#pullrefresh').pullRefresh().endPullupToRefresh() 
+      }
+      if(res.code == 0 && res.data.list.length > 0){
+        $("#loading").hide()
+        $('#nodata').hide()
+        resp = res.data.list
+        let order_num = res.data.total
+        let str = ''
+        resp.forEach(item => {
+          if (item.buy_time < 60) {
+            item.buy_time = item.buy_time + '分钟'
+          } else if (item.buy_time == 60) {
+            item.buy_time = '1小时'
+          }else{
+            item.buy_time = Math.floor(item.buy_time / 60) + '小时' + item.buy_time % 60 + '分钟'
+          }
+          item.parkstart_time = formatDatenew(item.parkstart_time)
+          item.parkend_time = formatDatenew(item.parkend_time)
+          str += _tpl.format(item)
+        })
+        $('.car_no').html(carId + '(共' + order_num + '个欠费订单)')
+        if (isClear) {
+          $("#recordList").html("")
+        }
+        $("#recordList").prepend(str)
+        page_index++
+        if (isClear) {
+          mui("#pullrefresh").pullRefresh().endPulldownToRefresh()
+        } else {
+          mui('#pullrefresh').pullRefresh().endPullupToRefresh()
+        }
+      }else{
+        $('.car_no').html(carId + '(共0个欠费订单)')
+        $("#loading").hide()
+        $('#nodata').show()
+        mui("#pullrefresh").pullRefresh().endPulldownToRefresh()
+      }
+    },true)
   }
   mui("body").on("tap", ".res-text", function () {
     console.log(1)
     document.location.href = my_url + '/' + $(this).attr("href")
-  }).on("tap", ".pay", function () {
-    console.log(2)
-    console.log(order)
-    if (isWeiXin()){
-      let params = {
-        code: code,
-        tradeNo: order.id,
-        total_fee: order.shouldmoney * 100
-      }
-      let url_wx_pay = '/its/admin/pay/brake'
-      __post(url_wx_pay,params,(res) => {
-        if(res.success){
-          function onBridgeReady() {
-            WeixinJSBridge.invoke(
-            'getBrandWCPayRequest', 
-            {
-              "appId": res.data.appId, //公众号id，由商户传入
-              "timeStamp": res.data.timeStamp, //时间戳，自1970年以来的秒数
-              "nonceStr": res.data.nonceStr, //随机串
-              "package": res.data.package, //订单详情扩展字符串
-              "signType": res.data.signType, //微信签名方式：
-              "paySign": res.data.paySign //微信签名
-            },
-            function (res) {
-              console.log(res)
-              if (res.err_msg == "get_brand_wcpay_request:ok") {
-                $('.content').hide()
-                $('.amount').hide()
-                $('.successto').show()
-                $('.carno div').removeClass('active')
-                $('.payno div').removeClass('active')
-                $('.success div').addClass('active')
-                // 使用以上方式判断前端返回,微信团队郑重提示：
-                //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-              }
-            })
-          }
-          if (typeof WeixinJSBridge == "undefined") {
-            if (document.addEventListener) {
-              document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-            } else if (document.attachEvent) {
-              document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-              document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-            }
-          } else {
-            onBridgeReady();
-          }
-        }else{
-
-        }
-      },true)
-    } else if (isAlipay()){
-      let params = {
-        tradeNo: order.id,
-        total_fee: order.shouldmoney * 100
-      }
-      let url_ali = '/its/admin/brake/alipay'
-      __post(url_ali,params,(res) => {
-        console.log(res)
-        if (res.mesg == 'OK') {
-          ap.tradePay({
-            orderStr: res.orderString
-          }, function (res) {
-            if (res.resultCode == 9000) {
-              $('.content').hide()
-              $('.amount').hide()
-              $('.successto').show()
-              $('.carno div').removeClass('active')
-              $('.payno div').removeClass('active')
-              $('.success div').addClass('active')
-            } else {
-              $(".errPlate").text("支付失败");
-              $(".errPlateBtn").remove();
-              $(".mask").show();
-            }
-          })
-        }
-      },true)
+  }).on("tap", ".pay", function (e) {
+    let num = e.target.id
+    let order = resp.filter(item => {
+      return item.order_no == num
+    })[0]
+    window.localStorage.setItem('sel_order', JSON.stringify(order))
+    if (isWeiXin()) {
+      var appid = "wx08551f6139c4b9fb";
+      var redirect_uri = encodeURIComponent("http://www.lcgxlm.com/fastPay/payfor.html");
+      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid +
+        "&redirect_uri=" +
+        redirect_uri + "&response_type=code&scope=snsapi_base#wechat_redirect"
+    } else if (isAlipay()) {
+      source = "alipayjs";
+      window.location.pathname = '/itsPay/payfor.html'
+      // window.location.pathname = '/payfor.html'
+    } else {
+      window.location.pathname = "/itsPay/notice.html"
+      // window.location.pathname = '/payfor.html'
+      return;
     }
   }).on("tap",".pays",(e) => {
     console.log(3)
@@ -223,7 +148,7 @@
   var oldBack = m.back;
   m.back = function () {
     if (__source !== "1") //不是扫码则返回车牌列表页
-      document.location.href = my_url + "login.html";
+      document.location.href = my_url + "/itsPay/login.html";
     else
       oldBack();
   };

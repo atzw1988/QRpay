@@ -3,25 +3,31 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>缴费</title>
+  <title>未缴记录</title>
   <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="stylesheet" href="/lib/mui/css/mui.min.css">
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/payList.css?v=1">
+  <link rel="stylesheet" href="lib/mui/css/mui.min.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/payList.css?v=1">
 </head>
 
 <body>
   <div class="content">
+    <header class="mui-navbar-inner mui-bar mui-bar-nav">
+      <h1 class="mui-title car_no"></h1>
+    </header>
     <div id="pullrefresh" class="recode-view mui-content mui-scroll-wrapper">
       <div class="mui-scroll">
         <ul class="mui-table-view pay-list" id="recordList">
 
         </ul>
+        <div class="no_more" style="display: none">
+          <span>没有更多数据了</span>
+        </div>
         <!-- 无数据 -->
         <div id="nodata" class="no-data" style="display:none;">
-          <!-- <img src="../img/nodata.png" alt="..."> -->
+          <img src="img/no_order.png" alt="...">
           <p>
             亲，你没有历史欠费哦！<br />
             继续保持，给你一个大大的爱心哦。
@@ -39,17 +45,15 @@
   <div id="orderItem" style="display:none;">
     <!-- <li class="mui-table-view-cell mui-media current">
            <div class="mui-media-object mui-pull-right">
-               <p><span class="rmb">¥ </span>{shouldmoney}</p>
-               <a class="mui-badge mui-badge-blue pay">缴费</a>
+               <p><span class="rmb">¥ </span>{charge_money}</p>
+               <a class="mui-badge mui-badge-blue pay" id='{order_no}'>缴费</a>
            </div>
            <div class="mui-media-body">
-               <p class="list-title">当前订单</p>
-               <p><img src="../img/plate.png" alt="...">{carnumber}</p>
-               <p class="mui-ellipsis"><img src="../img/arrive.png" alt="...">{starttime}</p>
-               <p class="mui-ellipsis"><img src="../img/leave.png" alt="...">{endtime}</p>
-               <p><img src="../img/time.png" alt="...">{sumMins}</p>
-               <p class="mui-ellipsis"><img src="../img/site.png" alt="...">{zonename} <b class="dot"></b>
-                 {parkingspace}
+               <p class="mui-ellipsis"><img src="img/arrive.png" alt="...">{parkstart_time}</p>
+               <p class="mui-ellipsis"><img src="img/leave.png" alt="...">{parkend_time}</p>
+               <p><img src="img/time.png" alt="...">{buy_time}</p>
+               <p class="mui-ellipsis"><img src="img/site.png" alt="...">{parking_name} <b class="dot"></b>
+                 {park_no}
                </p>
            </div>
        </li> -->
@@ -69,11 +73,11 @@
            </div>
        </li> -->
   </div>
-  <script src="/lib/jquery/jquery-3.4.0.min.js"></script>
-  <script src="/lib/mui/js/mui.js"></script>
-  <script src="/lib/crypto-js.min.js"></script>
-  <script src="../js/common.js?v=1"></script>
-  <script src="../js/payList.js?v=1"></script>
+  <script src="lib/jquery/jquery-3.4.0.min.js"></script>
+  <script src="lib/mui/js/mui.js"></script>
+  <script src="lib/crypto-js.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/payList.js"></script>
 </body>
 
 </html>

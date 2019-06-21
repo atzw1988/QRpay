@@ -1,8 +1,20 @@
 (function(m){
     mui.init();
-    setBuyerId();
-    if(!getLocal("BUYER_ID"))
-        getBuyerId();
+    window.localStorage.removeItem('mobile')
+    let mobile = window.localStorage.getItem('mobile')
+    console.log(mobile)
+    let carId = window.localStorage.getItem('car_no')
+    if(mobile != null){
+        if (mobile.length == 11){
+            window.location.pathname = '/itsPay/stopcar.html'
+            // window.location.pathname = '/stopcar.html'
+        } 
+    }else{
+        mui.alert("距离上次登录时间过长,请重新登录！", "警告")
+    }
+    // setBuyerId();
+    // if(!getLocal("BUYER_ID"))
+    //     getBuyerId();
     var wait,phone_reg="^(13[0-9]|14[57]|15[012356789]|16[6]|17[0135678]|18[0-9]|19[89])[0-9]{8}$";
     var margin= document.body.clientHeight - $(".btn-wrap").offset().top - $("._notice").height()-55;
     $("._notice").css("margin-top",margin+'px').show();
@@ -20,42 +32,58 @@
             return false;
         }
         wait=50; time();
-        var data={MOBILE_NUMBER: phone,REASON:"3"};
-        __post("app/login/sendCaptcha",data,function(r){
-            if(r.errcode !==1) return mui.alert(r.msg, "警告");
+        var data={mobile: phone};
+
+        __post("/its/admin/charge/send?mobile=" + phone, data, function (res) {
+            console.log(res)
+            if (res.code !== 0) return mui.alert(res.data, "警告");
         },true);
     }).on("tap","._login",function(){
-        $("._login").attr("disabled",true);
-        mui("._login").button("loading");
-        var phone=$("input[name=MOBILE_NUMBER]").val(),codes=$("input[name=CAPTCHA]").val();
-        var result = phone.match(phone_reg);
+        $("._login").attr("disabled", true)
+        mui("._login").button("loading")
+        let mobile = $("input[name=MOBILE_NUMBER]").val()
+        let codes = $("input[name=CAPTCHA]").val()
+        let result = mobile.match(phone_reg)
         if(!result){
-            mui.alert("请输入正确手机号！");
-            mui('._login').button('reset');
-            return;
+            mui.alert("请输入正确手机号！")
+            mui('._login').button('reset')
+            return
         }
         if($.trim(codes).length !== 6){
-            mui.alert("请输入正确的验证码！", "警告");
-            mui('._login').button('reset');
-            return;
+            mui.alert("请输入正确的验证码！", "警告")
+            mui('._login').button('reset')
+            return
         }
-        var data={USER_ACCOUNT:phone,TYPE:"0",CAPTCHA:codes,PASSWORD:"",SOURCE:__source,CITY_CODE:""};
-        if(_appType===1)
-            data.ALI_USER_ID=getLocal("BUYER_ID");
-        else
-            data.OPEN_ID=getLocal("BUYER_ID");
-        __post("app/login/doLogin",data,function(r){
-            mui('._login').button('reset');
-            if(r.errcode !==1)
-                return mui.toast(r.msg, "警告");
-            if(!r.data)
-                return mui.toast(r.msg, "警告");
-            localStorage.removeItem("USER_ID");
-            localStorage.removeItem("LOGIN_KEY");
-            setLocal("USER_ID",r.data["USER_ID"]);
-            setLocal("LOGIN_KEY",r.data["LOGIN_KEY"]);
-            mui.openWindow({url:__url+"app/view/myCar.html"});
-        },true);
+        __post("/its/admin/charge/verifyCode?mobile=" + mobile + '&code=' + codes, {}, (res) => {
+            if (!res.fail){
+                let data = {
+                    carNo: carId,
+                    mobile: mobile
+                }
+                let url = '/its/admin/charge/isRegister'
+                __post(url, data, (res) => {
+                    if (!res.fail) {
+                        mui.toast('登陆成功', {
+                            duration: 'long',
+                            type: 'div'
+                        })
+                        mui('._login').button('reset')
+                        window.localStorage.setItem('mobile', data.mobile)
+                        window.location.pathname = '/itsPay/stopcar.html'
+                        // window.location.pathname = '/stopcar.html'
+                    } else {
+                        mui.toast('登陆失败,请重新尝试!', {
+                            duration: 'long',
+                            type: 'div'
+                        })
+                        mui('._login').button('reset')
+                    }
+                }, true)
+            }else{
+                mui.alert(res.mesg, "警告");
+                mui('._login').button('reset')
+            }
+        },true)
     });
 
     function time(){
