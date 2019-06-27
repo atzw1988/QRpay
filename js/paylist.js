@@ -5,7 +5,7 @@
   var page_index = 1
   // var carId = GetUrlParam("car_id") ? GetUrlParam("car_id") : ""; //公众号 停车场获取carId
   window.localStorage.removeItem('sel_order')
-  var carId = window.localStorage.getItem('car_no')
+  var carId = getLocal('car_no')
   var resp
   // carId = carId.indexOf("?") < 0 ? carId : carId.substring(0, carId.indexOf("?"));
   mui.init({

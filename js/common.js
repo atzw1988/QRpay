@@ -1,5 +1,4 @@
-var __source=getLocal("SOURCE");//1小票扫码 2公众号 3停车场
-var __city_code="85";//停车场city_code
+
 function setLocal(n,v){
     window.localStorage.setItem(n,v);
 }

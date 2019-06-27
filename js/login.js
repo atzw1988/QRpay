@@ -1,9 +1,11 @@
 (function(m){
     mui.init();
-    window.localStorage.removeItem('mobile')
-    let mobile = window.localStorage.getItem('mobile')
+    // window.localStorage.removeItem('mobile')
+    // let mobile = window.localStorage.getItem('mobile')
+    let mobile = getLocal('mobile')
     console.log(mobile)
-    let carId = window.localStorage.getItem('car_no')
+    // let carId = window.localStorage.getItem('car_no')
+    let carId = getLocal('car_no')
     if(mobile != null){
         if (mobile.length == 11){
             window.location.pathname = '/itsPay/stopcar.html'

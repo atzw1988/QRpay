@@ -14,7 +14,7 @@
   //params.code 就是当前的code
   var code = params.code
   console.log(code)
-  var sel_order = JSON.parse(window.localStorage.getItem('sel_order'))
+  var sel_order = JSON.parse(getLocal('sel_order'))
   console.log(sel_order)
   // carId = carId.indexOf("?") < 0 ? carId : carId.substring(0, carId.indexOf("?"));
   mui.init({

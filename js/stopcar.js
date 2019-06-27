@@ -2,7 +2,7 @@
   // setBuyerId();
   // var ordersItem = $("#ordersItem").html().replace(/\<!--|--\>/g, "");
   // var carId = GetUrlParam("car_id") ? GetUrlParam("car_id") : ""; //公众号 停车场获取carId
-  var carId = window.localStorage.getItem('car_no')
+  var carId = getLocal('car_no')
   // carId = carId.indexOf("?") < 0 ? carId : carId.substring(0, carId.indexOf("?"));
   mui.init({
     swipeBack: true, //启用右滑关闭功能
